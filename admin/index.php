@@ -60,7 +60,7 @@ foreach ($events as $e) {
         </a>
         <div class="h-4 w-[1px] bg-border hidden sm:block"></div>
         <div class="text-xs text-muted-foreground hidden md:block">
-          Logged in as <strong class="text-foreground"><?php echo htmlspecialchars($_SESSION['admin_user'] ?? 'admin', ENT_QUOTES, 'UTF-8'); ?></strong>
+          Logged in as <strong class="text-foreground"><?php echo htmlspecialchars($_SESSION['admin_user'] ?? 'xlator', ENT_QUOTES, 'UTF-8'); ?></strong>
         </div>
         <a href="/admin/logout.php" class="inline-flex items-center justify-center rounded-full border border-border px-4 py-1.5 text-xs font-semibold hover:bg-muted transition-colors">
           Log Out

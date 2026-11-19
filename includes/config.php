@@ -15,7 +15,7 @@ define('ADMIN_EMAIL', 'hello@xlator.com'); // Update with your Hostinger notific
 define('DATA_DIR', __DIR__ . '/../data');
 
 // Admin credentials (Change these for your production Hostinger setup)
-define('ADMIN_USERNAME', 'admin');
+define('ADMIN_USERNAME', 'xlator');
 // Default password: "password123" (hashed with BCRYPT)
 define('ADMIN_PASSWORD_HASH', '$2y$10$AT64XSre.2l56FoCx0AU/eagN2AD4PJaOqHQA5s97wAzPhc7e4tPG');
 
