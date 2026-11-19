@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <form method="POST" action="/admin/login.php" class="space-y-5">
         <div>
           <label class="eyebrow text-[0.65rem] font-medium" for="username">Username</label>
-          <input type="text" id="username" name="username" required autofocus autocomplete="username" class="flex w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm mt-2 h-11" placeholder="xlator" value="<?php echo htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"/>
+          <input type="text" id="username" name="username" required autofocus autocomplete="username" class="flex w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm mt-2 h-11" placeholder="username" value="<?php echo htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"/>
         </div>
 
         <div>
