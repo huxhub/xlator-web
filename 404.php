@@ -22,7 +22,7 @@ include __DIR__ . '/includes/header.php';
           The page you're looking for doesn't exist, has been removed, or has moved to a new address.
         </p>
         <div class="mt-8">
-          <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 shadow-[var(--shadow-lift)] h-12 px-8 text-sm" href="index.php">
+          <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 shadow-[var(--shadow-lift)] h-12 px-8 text-sm" href="/index.php">
             Return to Homepage
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right size-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
           </a>

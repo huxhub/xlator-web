@@ -221,8 +221,8 @@ include __DIR__ . '/includes/header.php';
         </table>
       </div>
       <div class="mt-8 flex flex-wrap gap-3">
-        <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-ink text-ink-foreground uppercase tracking-wider font-semibold hover:bg-ink-soft h-12 px-7 text-sm" href="join.php?plan=Xlator">Apply for Xlator</a>
-        <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 shadow-[var(--shadow-lift)] h-12 px-7 text-sm" href="join.php?plan=Xlator+Elite">Apply for Xlator Elite</a>
+        <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-ink text-ink-foreground uppercase tracking-wider font-semibold hover:bg-ink-soft h-12 px-7 text-sm" href="/join.php?plan=Xlator">Apply for Xlator</a>
+        <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 shadow-[var(--shadow-lift)] h-12 px-7 text-sm" href="/join.php?plan=Xlator+Elite">Apply for Xlator Elite</a>
       </div>
     </section>
 
@@ -241,7 +241,7 @@ include __DIR__ . '/includes/header.php';
           </div>
           <p class="mt-8 text-lg font-medium">Move beyond survival-mode marketing and build a recognisable, lasting brand.</p>
         </div>
-        <img src="images/business-presentation.jpg" alt="Business development presentation" loading="lazy" class="photo-mono w-full rounded-3xl object-cover"/>
+        <img src="/images/business-presentation.jpg" alt="Business development presentation" loading="lazy" class="photo-mono w-full rounded-3xl object-cover"/>
       </div>
     </section>
   </main>

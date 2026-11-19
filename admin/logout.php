@@ -8,5 +8,5 @@ $_SESSION['admin_logged_in'] = false;
 unset($_SESSION['admin_logged_in'], $_SESSION['admin_user']);
 session_destroy();
 
-header('Location: login.php');
+header('Location: /admin/login.php');
 exit;

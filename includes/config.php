@@ -102,7 +102,7 @@ function is_admin_logged_in() {
     return !empty($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
 }
 
-function require_admin_login($redirect_to = 'login.php') {
+function require_admin_login($redirect_to = '/admin/login.php') {
     if (!is_admin_logged_in()) {
         header("Location: $redirect_to");
         exit;

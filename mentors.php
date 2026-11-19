@@ -20,7 +20,7 @@ include __DIR__ . '/includes/header.php';
     <!-- Mentor 1: Brand Swamy -->
     <section class="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-20">
       <div class="grid items-center gap-12 md:grid-cols-2">
-        <img src="images/mentor-brand-swamy.jpg" alt="Portrait of Brand Swamy" loading="eager" class="aspect-[4/5] w-full rounded-3xl object-cover object-top shadow-[var(--shadow-lift)]"/>
+        <img src="/images/mentor-brand-swamy.jpg" alt="Portrait of Brand Swamy" loading="eager" class="aspect-[4/5] w-full rounded-3xl object-cover object-top shadow-[var(--shadow-lift)]"/>
         <div>
           <p class="text-3xl font-medium tracking-wide text-foreground/80">Brand Swamy®</p>
           <h2 class="headline mt-6 text-4xl md:text-5xl">
@@ -40,7 +40,7 @@ include __DIR__ . '/includes/header.php';
     <!-- Mentor 2: Faisal Cheeran -->
     <section class="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-20">
       <div class="grid items-center gap-12 md:grid-cols-2 md:[&>*:first-child]:order-last">
-        <img src="images/mentor-faisal-cheeran.jpg" alt="Portrait of Faisal Cheeran" loading="lazy" class="aspect-[4/5] w-full rounded-3xl object-cover object-top shadow-[var(--shadow-lift)]"/>
+        <img src="/images/mentor-faisal-cheeran.jpg" alt="Portrait of Faisal Cheeran" loading="lazy" class="aspect-[4/5] w-full rounded-3xl object-cover object-top shadow-[var(--shadow-lift)]"/>
         <div>
           <p class="text-3xl font-medium tracking-wide text-foreground/80">Faisal Cheeran®</p>
           <h2 class="headline mt-6 text-4xl md:text-5xl">
@@ -67,10 +67,10 @@ include __DIR__ . '/includes/header.php';
       <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-5 py-14 md:flex-row md:items-center md:px-10">
         <h2 class="headline text-3xl md:text-4xl">Learn from them in person.</h2>
         <div class="flex flex-wrap gap-3">
-          <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full border-2 border-ink-foreground bg-transparent text-ink-foreground uppercase tracking-wider font-semibold hover:bg-ink-foreground hover:text-ink h-12 px-7 text-sm" href="events.php">
+          <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full border-2 border-ink-foreground bg-transparent text-ink-foreground uppercase tracking-wider font-semibold hover:bg-ink-foreground hover:text-ink h-12 px-7 text-sm" href="/events.php">
             See upcoming sessions
           </a>
-          <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 shadow-[var(--shadow-lift)] h-12 px-7 text-sm" href="join.php">
+          <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 shadow-[var(--shadow-lift)] h-12 px-7 text-sm" href="/join.php">
             Join Xlator 
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
           </a>

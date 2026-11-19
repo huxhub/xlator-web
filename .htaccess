@@ -23,14 +23,27 @@ AddDefaultCharset UTF-8
     RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
     RewriteRule ^ %1.php [R=301,L]
 
-    # Redirect /events.php/admin or /events/admin to /admin/
-    RewriteRule ^events(\.php)?/admin(/.*)?$ /admin/$2 [R=302,L]
+    # Universal Admin Catch: Redirect ANY path with /admin (e.g. /program.php/admin, /events.php/admin, /anything/admin)
+    RewriteRule ^.+?/admin(?:/(.*))?$ /admin/$1 [R=302,L,QSA]
+
+    # Redirect /admin.php, /admin.html to /admin/
+    RewriteRule ^admin\.(php|html?)$ /admin/ [R=301,L]
+
+    # Admin aliases (e.g. /administrator, /backend, /cp)
+    RewriteRule ^(administrator|backend|cp)(?:/(.*))?$ /admin/$2 [R=301,L,QSA]
 
     # Normalize /admin to /admin/
     RewriteRule ^admin$ /admin/ [R=301,L]
 
     # Rescue root-level accidental admin actions and route to /admin/
-    RewriteRule ^(event-edit|event-delete|logout)(\.php)?$ /admin/$1.php [R=301,L,QSA]
+    RewriteRule ^(event-edit|event-delete|login|logout)(\.php)?$ /admin/$1.php [R=301,L,QSA]
+
+    # Admin route aliases
+    RewriteRule ^admin/(events|dashboard|home)/?$ admin/index.php [L,QSA]
+    RewriteRule ^admin/(new|create|add)/?$ admin/event-edit.php [L,QSA]
+    RewriteRule ^admin/delete/?$ admin/event-delete.php [L,QSA]
+    RewriteRule ^admin/signin/?$ admin/login.php [L,QSA]
+    RewriteRule ^admin/signout/?$ admin/logout.php [L,QSA]
 
     # Clean URLs: Allow accessing pages without .php extension (e.g., /program -> program.php)
     RewriteCond %{REQUEST_FILENAME} !-d

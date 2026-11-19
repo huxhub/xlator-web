@@ -20,21 +20,21 @@ include __DIR__ . '/includes/header.php';
       <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 md:grid-cols-[1.1fr_1fr] md:px-10 md:py-24">
         <div class="animate-rise">
           <p class="eyebrow text-foreground/70">Brand Swamy presents</p>
-          <img src="images/logo-black.png" alt="" aria-hidden="true" class="mt-8 h-28 w-auto md:h-36"/>
+          <img src="/images/logo-black.png" alt="" aria-hidden="true" class="mt-8 h-28 w-auto md:h-36"/>
           <h1 class="headline mt-10 text-5xl md:text-7xl">Brands aren't born.<br/><span class="text-brand">They're built together.</span></h1>
           <p class="mt-6 max-w-md text-lg text-muted-foreground">A brand building mentorship programme for business owners.</p>
           <div class="mt-10 flex flex-wrap gap-3">
-            <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 shadow-[var(--shadow-lift)] h-12 px-7 text-sm" href="join.php">
+            <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 shadow-[var(--shadow-lift)] h-12 px-7 text-sm" href="/join.php">
               Join the program 
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
-            <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full border-2 border-current bg-transparent uppercase tracking-wider font-semibold hover:bg-foreground hover:text-background h-12 px-7 text-sm" href="events.php">
+            <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full border-2 border-current bg-transparent uppercase tracking-wider font-semibold hover:bg-foreground hover:text-background h-12 px-7 text-sm" href="/events.php">
               Upcoming events
             </a>
           </div>
         </div>
         <div class="relative mx-auto w-full max-w-md md:max-w-none">
-          <img src="images/hero-handshake.jpg" alt="Business owner climbing steps toward a helping hand" class="photo-mono aspect-[4/5] w-full rounded-3xl object-cover shadow-[var(--shadow-lift)]"/>
+          <img src="/images/hero-handshake.jpg" alt="Business owner climbing steps toward a helping hand" class="photo-mono aspect-[4/5] w-full rounded-3xl object-cover shadow-[var(--shadow-lift)]"/>
         </div>
       </div>
     </section>
@@ -85,7 +85,7 @@ include __DIR__ . '/includes/header.php';
             <p class="mt-4 text-sm">Complete brand building framework</p>
           </div>
         </div>
-        <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full border-2 border-current bg-transparent uppercase tracking-wider font-semibold hover:bg-foreground hover:text-background h-12 px-7 text-sm mt-12" href="program.php">
+        <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full border-2 border-current bg-transparent uppercase tracking-wider font-semibold hover:bg-foreground hover:text-background h-12 px-7 text-sm mt-12" href="/program.php">
           Explore the program 
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
         </a>
@@ -100,7 +100,7 @@ include __DIR__ . '/includes/header.php';
             <p class="eyebrow text-brand">What's next</p>
             <h2 class="headline mt-3 text-4xl md:text-5xl">Events &amp; programs</h2>
           </div>
-          <a class="eyebrow flex items-center gap-2 hover:text-brand" href="events.php">
+          <a class="eyebrow flex items-center gap-2 hover:text-brand" href="/events.php">
             All events 
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right size-4" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
           </a>
@@ -108,11 +108,11 @@ include __DIR__ . '/includes/header.php';
 
         <div class="mt-12 grid gap-6 md:grid-cols-3">
           <?php foreach ($preview_events as $event): 
-            $detail_url = 'events.php?slug=' . urlencode($event['slug']);
+            $detail_url = '/events.php?slug=' . urlencode($event['slug']);
           ?>
             <a class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]" href="<?php echo $detail_url; ?>">
               <div class="relative aspect-[16/10] overflow-hidden bg-muted">
-                <img src="<?php echo htmlspecialchars($event['image'] ?? 'images/collaboration.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($event['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 photo-mono"/>
+                <img src="<?php echo htmlspecialchars(get_asset_url($event['image'] ?? 'images/collaboration.jpg'), ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($event['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 photo-mono"/>
                 <div class="absolute left-4 top-4 flex flex-col items-center rounded-lg bg-background px-3 py-2 text-center">
                   <span class="numeral text-3xl"><?php echo htmlspecialchars($event['day'], ENT_QUOTES, 'UTF-8'); ?></span>
                   <span class="eyebrow mt-0.5 text-[0.6rem] tracking-[0.2em]"><?php echo htmlspecialchars($event['month'], ENT_QUOTES, 'UTF-8'); ?></span>
@@ -143,15 +143,15 @@ include __DIR__ . '/includes/header.php';
       <p class="eyebrow text-brand">Two mentors. Years of experience.</p>
       <h2 class="headline mt-3 text-4xl md:text-5xl">Now on your team.</h2>
       <div class="mt-12 grid gap-6 md:grid-cols-2">
-        <a class="group relative overflow-hidden rounded-3xl bg-ink text-ink-foreground" href="mentors.php">
-          <img src="images/mentor-brand-swamy.jpg" alt="Brand Swamy®" loading="lazy" class="aspect-[4/5] w-full object-cover object-top transition-transform duration-700 group-hover:scale-105 md:aspect-[5/6]"/>
+        <a class="group relative overflow-hidden rounded-3xl bg-ink text-ink-foreground" href="/mentors.php">
+          <img src="/images/mentor-brand-swamy.jpg" alt="Brand Swamy®" loading="lazy" class="aspect-[4/5] w-full object-cover object-top transition-transform duration-700 group-hover:scale-105 md:aspect-[5/6]"/>
           <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/70 to-transparent p-8 pt-24">
             <p class="headline text-3xl">Brand Swamy®</p>
             <p class="mt-2 text-sm uppercase tracking-wider text-ink-foreground/80">Strategic thinking &amp; business mindset</p>
           </div>
         </a>
-        <a class="group relative overflow-hidden rounded-3xl bg-ink text-ink-foreground" href="mentors.php">
-          <img src="images/mentor-faisal-cheeran.jpg" alt="Faisal Cheeran®" loading="lazy" class="aspect-[4/5] w-full object-cover object-top transition-transform duration-700 group-hover:scale-105 md:aspect-[5/6]"/>
+        <a class="group relative overflow-hidden rounded-3xl bg-ink text-ink-foreground" href="/mentors.php">
+          <img src="/images/mentor-faisal-cheeran.jpg" alt="Faisal Cheeran®" loading="lazy" class="aspect-[4/5] w-full object-cover object-top transition-transform duration-700 group-hover:scale-105 md:aspect-[5/6]"/>
           <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/70 to-transparent p-8 pt-24">
             <p class="headline text-3xl">Faisal Cheeran®</p>
             <p class="mt-2 text-sm uppercase tracking-wider text-ink-foreground/80">Creative thinking &amp; real-world execution</p>
@@ -167,7 +167,7 @@ include __DIR__ . '/includes/header.php';
           <p class="eyebrow opacity-80">Build it. Grow it. Scale it.</p>
           <h2 class="headline mt-3 text-4xl md:text-5xl">Your brand can go further.</h2>
         </div>
-        <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-ink text-ink-foreground uppercase tracking-wider font-semibold hover:bg-ink-soft h-12 px-7 text-sm" href="join.php">
+        <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full bg-ink text-ink-foreground uppercase tracking-wider font-semibold hover:bg-ink-soft h-12 px-7 text-sm" href="/join.php">
           Join Brand Xlator now 
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
         </a>

@@ -97,7 +97,7 @@ include __DIR__ . '/includes/header.php';
               Thank you for choosing Brand Xlator. Our mentorship team will review your application and contact you within 2 business days.
             </p>
             <div class="mt-6">
-              <a href="index.php" class="inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 text-xs uppercase tracking-wider font-semibold text-ink-foreground hover:bg-ink-soft transition-colors">
+              <a href="/index.php" class="inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 text-xs uppercase tracking-wider font-semibold text-ink-foreground hover:bg-ink-soft transition-colors">
                 Return to Home
               </a>
             </div>

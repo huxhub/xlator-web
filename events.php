@@ -49,7 +49,7 @@ include __DIR__ . '/includes/header.php';
             <p class="headline text-2xl text-muted-foreground">No upcoming events scheduled</p>
             <p class="mt-3 text-sm text-muted-foreground max-w-md mx-auto">New session dates will be announced soon. Check out our mentorship program or apply to join our next cohort.</p>
             <div class="mt-6">
-              <a href="join.php" class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-xs uppercase tracking-wider font-semibold text-brand-foreground hover:bg-brand/90 transition-colors">
+              <a href="/join.php" class="inline-flex items-center justify-center rounded-full bg-brand px-6 py-3 text-xs uppercase tracking-wider font-semibold text-brand-foreground hover:bg-brand/90 transition-colors">
                 Apply for Program
               </a>
             </div>
@@ -57,11 +57,11 @@ include __DIR__ . '/includes/header.php';
         <?php else: ?>
           <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <?php foreach ($upcoming_events as $event): 
-              $detail_url = 'events.php?slug=' . urlencode($event['slug']);
+              $detail_url = '/events.php?slug=' . urlencode($event['slug']);
             ?>
               <a class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]" href="<?php echo $detail_url; ?>">
                 <div class="relative aspect-[16/10] overflow-hidden bg-muted">
-                  <img src="<?php echo htmlspecialchars($event['image'] ?? 'images/collaboration.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($event['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 photo-mono"/>
+                  <img src="<?php echo htmlspecialchars(get_asset_url($event['image'] ?? 'images/collaboration.jpg'), ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($event['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 photo-mono"/>
                   <div class="absolute left-4 top-4 flex flex-col items-center rounded-lg bg-background px-3 py-2 text-center">
                     <span class="numeral text-3xl"><?php echo htmlspecialchars($event['day'], ENT_QUOTES, 'UTF-8'); ?></span>
                     <span class="eyebrow mt-0.5 text-[0.6rem] tracking-[0.2em]"><?php echo htmlspecialchars($event['month'], ENT_QUOTES, 'UTF-8'); ?></span>
@@ -99,11 +99,11 @@ include __DIR__ . '/includes/header.php';
         <?php else: ?>
           <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <?php foreach ($past_events as $event): 
-              $detail_url = 'events.php?slug=' . urlencode($event['slug']);
+              $detail_url = '/events.php?slug=' . urlencode($event['slug']);
             ?>
               <a class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card opacity-85 transition-all hover:opacity-100 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]" href="<?php echo $detail_url; ?>">
                 <div class="relative aspect-[16/10] overflow-hidden bg-muted">
-                  <img src="<?php echo htmlspecialchars($event['image'] ?? 'images/collaboration.jpg', ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($event['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy" class="h-full w-full object-cover photo-mono"/>
+                  <img src="<?php echo htmlspecialchars(get_asset_url($event['image'] ?? 'images/collaboration.jpg'), ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($event['title'], ENT_QUOTES, 'UTF-8'); ?>" loading="lazy" class="h-full w-full object-cover photo-mono"/>
                   <div class="absolute left-4 top-4 flex flex-col items-center rounded-lg bg-background px-3 py-2 text-center">
                     <span class="numeral text-3xl"><?php echo htmlspecialchars($event['day'], ENT_QUOTES, 'UTF-8'); ?></span>
                     <span class="eyebrow mt-0.5 text-[0.6rem] tracking-[0.2em]"><?php echo htmlspecialchars($event['month'], ENT_QUOTES, 'UTF-8'); ?></span>
