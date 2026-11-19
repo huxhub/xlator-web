@@ -10,10 +10,8 @@ Access the backend management system to perform full **CRUD** operations on even
 
 - **Local URL**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
 - **Live URL**: `https://yourdomain.com/admin/`
-- **Default Username**: `admin`
-- **Default Password**: `password123`
 
-*(You can customize the credentials anytime in [includes/config.php](file:///c:/Users/NIDHIN/Desktop/uxhub/xlatorweb/includes/config.php)).*
+*(Admin credentials and settings are configured in [includes/config.php](file:///c:/Users/NIDHIN/Desktop/uxhub/xlatorweb/includes/config.php)).*
 
 ### Admin Features:
 - **Create**: Add new offline sessions, masterclasses, open houses, or workshops with dates, categories, formats, locations, summaries, and full descriptions.
@@ -95,16 +93,16 @@ xlatorweb/
 
 ## ⚙️ Configuration
 
-### Changing Admin Password & Notification Email
+### Admin Credentials & Notification Email
 
-Open [includes/config.php](file:///c:/Users/NIDHIN/Desktop/uxhub/xlatorweb/includes/config.php):
+Configure credentials and notification settings in [includes/config.php](file:///c:/Users/NIDHIN/Desktop/uxhub/xlatorweb/includes/config.php):
 
 ```php
 // Notification recipient email for join applications
 define('ADMIN_EMAIL', 'yourname@yourdomain.com');
 
 // Admin Portal Credentials
-define('ADMIN_USERNAME', 'admin');
-// To generate a new hash in PHP: password_hash('YourNewPassword', PASSWORD_BCRYPT);
-define('ADMIN_PASSWORD_HASH', '$2y$10$wE9mHlVvPZJ.kR0tZ8yB8OFX.Qc091tq42oXm1r4C2u2JomvH3bY.');
+define('ADMIN_USERNAME', 'your_username');
+// Generate a secure bcrypt hash for your password:
+define('ADMIN_PASSWORD_HASH', 'your_bcrypt_hash_here');
 ```
