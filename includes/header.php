@@ -31,24 +31,25 @@ $join_btn_cls = ($current_page === 'join') ? 'bg-brand text-brand-foreground' : 
   <meta property="og:title" content="<?php echo htmlspecialchars($page_title, ENT_QUOTES, 'UTF-8'); ?>"/>
   <meta property="og:description" content="<?php echo htmlspecialchars($page_description, ENT_QUOTES, 'UTF-8'); ?>"/>
   <meta property="og:type" content="website"/>
-  <link rel="icon" type="image/png" href="<?php echo $prefix; ?>images/favicon.png"/>
+  <base href="/"/>
+  <link rel="icon" type="image/png" href="/images/favicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@400;500;600&display=swap"/>
-  <link rel="stylesheet" href="<?php echo $prefix; ?>css/styles.css"/>
+  <link rel="stylesheet" href="/css/styles.css"/>
 </head>
 <body class="bg-background text-foreground antialiased selection:bg-brand selection:text-brand-foreground">
   <div class="flex min-h-screen flex-col">
     <header class="sticky top-0 z-40 border-b border-border/70 bg-background/90 backdrop-blur">
       <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-10">
-        <a aria-label="Xlator home" class="inline-block shrink-0 h-14" href="<?php echo $prefix; ?>index.php">
-          <img src="<?php echo $prefix; ?>images/logo-black.png" alt="Xlator" class="h-full w-auto" width="783" height="889"/>
+        <a aria-label="Xlator home" class="inline-block shrink-0 h-14" href="/index.php">
+          <img src="/images/logo-black.png" alt="Xlator" class="h-full w-auto" width="783" height="889"/>
         </a>
         <nav class="hidden items-center gap-10 md:flex">
-          <a class="eyebrow <?php echo $prog_cls; ?> transition-colors hover:text-foreground" href="<?php echo $prefix; ?>program.php">Program</a>
-          <a class="eyebrow <?php echo $ment_cls; ?> transition-colors hover:text-foreground" href="<?php echo $prefix; ?>mentors.php">Mentors</a>
-          <a class="eyebrow <?php echo $evnt_cls; ?> transition-colors hover:text-foreground" href="<?php echo $prefix; ?>events.php">Events</a>
-          <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 <?php echo $join_btn_cls; ?> uppercase tracking-wider font-semibold h-10 rounded-md px-8" href="<?php echo $prefix; ?>join.php">Join Xlator</a>
+          <a class="eyebrow <?php echo $prog_cls; ?> transition-colors hover:text-foreground" href="/program.php">Program</a>
+          <a class="eyebrow <?php echo $ment_cls; ?> transition-colors hover:text-foreground" href="/mentors.php">Mentors</a>
+          <a class="eyebrow <?php echo $evnt_cls; ?> transition-colors hover:text-foreground" href="/events.php">Events</a>
+          <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 <?php echo $join_btn_cls; ?> uppercase tracking-wider font-semibold h-10 rounded-md px-8" href="/join.php">Join Xlator</a>
         </nav>
         <button class="md:hidden mobile-menu-btn cursor-pointer p-2" aria-label="Open menu">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu size-7" aria-hidden="true">
@@ -62,8 +63,8 @@ $join_btn_cls = ($current_page === 'join') ? 'bg-brand text-brand-foreground' : 
     <div id="mobile-menu-drawer" class="mobile-drawer-overlay" aria-hidden="true">
       <div class="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
         <div class="flex items-center justify-between p-6 border-b border-border">
-          <a href="<?php echo $prefix; ?>index.php" class="h-10 inline-block">
-            <img src="<?php echo $prefix; ?>images/logo-black.png" alt="Xlator" class="h-full w-auto" />
+          <a href="/index.php" class="h-10 inline-block">
+            <img src="/images/logo-black.png" alt="Xlator" class="h-full w-auto" />
           </a>
           <button id="close-menu-btn" class="p-2 rounded-lg hover:bg-muted text-foreground transition-colors cursor-pointer" aria-label="Close menu">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6">
@@ -73,11 +74,11 @@ $join_btn_cls = ($current_page === 'join') ? 'bg-brand text-brand-foreground' : 
           </button>
         </div>
         <nav class="flex flex-col p-6 space-y-6">
-          <a class="eyebrow text-base tracking-widest hover:text-brand transition-colors <?php echo ($current_page === 'program') ? 'text-brand font-bold' : ''; ?>" href="<?php echo $prefix; ?>program.php">Program</a>
-          <a class="eyebrow text-base tracking-widest hover:text-brand transition-colors <?php echo ($current_page === 'mentors') ? 'text-brand font-bold' : ''; ?>" href="<?php echo $prefix; ?>mentors.php">Mentors</a>
-          <a class="eyebrow text-base tracking-widest hover:text-brand transition-colors <?php echo ($current_page === 'events') ? 'text-brand font-bold' : ''; ?>" href="<?php echo $prefix; ?>events.php">Events</a>
+          <a class="eyebrow text-base tracking-widest hover:text-brand transition-colors <?php echo ($current_page === 'program') ? 'text-brand font-bold' : ''; ?>" href="/program.php">Program</a>
+          <a class="eyebrow text-base tracking-widest hover:text-brand transition-colors <?php echo ($current_page === 'mentors') ? 'text-brand font-bold' : ''; ?>" href="/mentors.php">Mentors</a>
+          <a class="eyebrow text-base tracking-widest hover:text-brand transition-colors <?php echo ($current_page === 'events') ? 'text-brand font-bold' : ''; ?>" href="/events.php">Events</a>
           <div class="pt-4">
-            <a class="inline-flex w-full items-center justify-center h-12 rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 transition-colors text-sm" href="<?php echo $prefix; ?>join.php">
+            <a class="inline-flex w-full items-center justify-center h-12 rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 transition-colors text-sm" href="/join.php">
               Join Xlator
             </a>
           </div>

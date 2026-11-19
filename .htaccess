@@ -23,6 +23,9 @@ AddDefaultCharset UTF-8
     RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
     RewriteRule ^ %1.php [R=301,L]
 
+    # Redirect /events.php/admin or /events/admin to /admin/
+    RewriteRule ^events(\.php)?/admin(/.*)?$ /admin/$2 [R=302,L]
+
     # Normalize /admin to /admin/
     RewriteRule ^admin$ /admin/ [R=301,L]
 

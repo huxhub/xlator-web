@@ -129,17 +129,17 @@ function get_flash_message() {
 }
 
 /**
- * Resolve relative image asset path for admin or frontend
+ * Resolve image asset path for admin or frontend
  */
 function get_asset_url($path, $is_admin = false) {
     if (empty($path)) {
-        return $is_admin ? '../images/collaboration.jpg' : 'images/collaboration.jpg';
+        return '/images/collaboration.jpg';
     }
     if (preg_match('#^(https?:)?//#', $path)) {
         return $path;
     }
     $clean_path = ltrim($path, '/');
-    return $is_admin ? ('../' . $clean_path) : $clean_path;
+    return '/' . $clean_path;
 }
 
 /**

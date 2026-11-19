@@ -166,12 +166,13 @@ if (is_dir($uploads_dir)) {
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title><?php echo $is_edit ? 'Edit Event' : 'Create New Event'; ?> — Xlator Admin</title>
-  <link rel="icon" type="image/png" href="../images/favicon.png"/>
+  <base href="/"/>
+  <link rel="icon" type="image/png" href="/images/favicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@400;500;600&display=swap"/>
-  <link rel="stylesheet" href="../css/styles.css"/>
-  <link rel="stylesheet" href="../css/admin.css"/>
+  <link rel="stylesheet" href="/css/styles.css"/>
+  <link rel="stylesheet" href="/css/admin.css"/>
 </head>
 <body class="bg-background text-foreground min-h-screen flex flex-col selection:bg-brand selection:text-brand-foreground">
 
@@ -493,7 +494,7 @@ if (is_dir($uploads_dir)) {
       
       // Update master preview
       const previewImg = document.getElementById('masterImagePreview');
-      previewImg.src = '../' + path.replace(/^\/+/, '');
+      previewImg.src = '/' + path.replace(/^\/+/, '');
       document.getElementById('masterImageLabel').textContent = path;
       document.getElementById('sourceBadge').textContent = 'Library Item';
       document.getElementById('sourceBadge').className = 'px-2 py-0.5 rounded-full text-[0.6rem] font-bold uppercase tracking-wider bg-ink text-ink-foreground';
@@ -553,7 +554,7 @@ if (is_dir($uploads_dir)) {
       if (restoreGallery) {
         const currentPath = document.getElementById('selected_image').value || 'images/collaboration.jpg';
         const previewImg = document.getElementById('masterImagePreview');
-        previewImg.src = '../' + currentPath.replace(/^\/+/, '');
+        previewImg.src = '/' + currentPath.replace(/^\/+/, '');
         document.getElementById('masterImageLabel').textContent = currentPath;
         document.getElementById('sourceBadge').textContent = 'Live Selection';
         document.getElementById('sourceBadge').className = 'px-2 py-0.5 rounded-full text-[0.6rem] font-bold uppercase tracking-wider bg-brand/10 text-brand';

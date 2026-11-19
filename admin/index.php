@@ -33,12 +33,13 @@ foreach ($events as $e) {
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Events Manager — Xlator Admin</title>
-  <link rel="icon" type="image/png" href="../images/favicon.png"/>
+  <base href="/"/>
+  <link rel="icon" type="image/png" href="/images/favicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@400;500;600&display=swap"/>
-  <link rel="stylesheet" href="../css/styles.css"/>
-  <link rel="stylesheet" href="../css/admin.css"/>
+  <link rel="stylesheet" href="/css/styles.css"/>
+  <link rel="stylesheet" href="/css/admin.css"/>
 </head>
 <body class="bg-background text-foreground min-h-screen flex flex-col selection:bg-brand selection:text-brand-foreground">
 
@@ -47,7 +48,7 @@ foreach ($events as $e) {
     <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-10">
       <div class="flex items-center gap-6">
         <a href="/admin/index.php" class="h-10 inline-block">
-          <img src="../images/logo-black.png" alt="Xlator" class="h-full w-auto" />
+          <img src="/images/logo-black.png" alt="Xlator" class="h-full w-auto" />
         </a>
         <span class="hidden sm:inline-block text-xs font-bold uppercase tracking-widest text-brand bg-brand/10 px-2.5 py-1 rounded">
           Admin Console

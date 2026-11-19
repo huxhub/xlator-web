@@ -45,22 +45,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Admin Login — Xlator</title>
-  <link rel="icon" type="image/png" href="../images/favicon.png"/>
+  <base href="/"/>
+  <link rel="icon" type="image/png" href="/images/favicon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@400;500;600&display=swap"/>
-  <link rel="stylesheet" href="../css/styles.css"/>
-  <link rel="stylesheet" href="../css/admin.css"/>
+  <link rel="stylesheet" href="/css/styles.css"/>
+  <link rel="stylesheet" href="/css/admin.css"/>
 </head>
 <body class="bg-background text-foreground min-h-screen flex flex-col justify-between selection:bg-brand selection:text-brand-foreground">
 
   <!-- Header minimal -->
   <header class="border-b border-border/70 bg-background/90 py-4 px-6 md:px-10">
     <div class="mx-auto max-w-7xl flex items-center justify-between">
-      <a href="../index.php" class="h-10 inline-block">
-        <img src="../images/logo-black.png" alt="Xlator" class="h-full w-auto" />
+      <a href="/index.php" class="h-10 inline-block">
+        <img src="/images/logo-black.png" alt="Xlator" class="h-full w-auto" />
       </a>
-      <a href="../index.php" class="eyebrow text-xs hover:text-brand transition-colors">
+      <a href="/index.php" class="eyebrow text-xs hover:text-brand transition-colors">
         &larr; Back to Live Site
       </a>
     </div>
