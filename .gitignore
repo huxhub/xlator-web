@@ -1,0 +1,19 @@
+# OS & System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files & logs
+*.tmp
+*.log
+*.bak
+*.swp
+*~
+cookie*.txt
+test_*.php
+
+# Environment & Local Server
+.env
+.env.local
+.vscode/
+.idea/
