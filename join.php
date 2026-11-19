@@ -23,11 +23,11 @@ include __DIR__ . '/includes/header.php';
           <p class="eyebrow text-brand">Join Brand Xlator</p>
           <h1 class="headline mt-4 text-5xl md:text-6xl">Your brand can<br/><span class="text-brand">go further.</span></h1>
           <p class="mt-6 max-w-md text-lg text-muted-foreground">Tell us about your business and we'll get in touch with the next steps. Grow your brand to the next level. Every day.</p>
-          <img src="images/business-presentation.jpg" alt="Mentor presenting a business development plan" class="photo-mono mt-10 hidden w-full rounded-3xl object-cover md:block"/>
+          <img src="/images/business-presentation.jpg" alt="Mentor presenting a business development plan" class="photo-mono mt-10 hidden w-full rounded-3xl object-cover md:block"/>
         </div>
 
         <div class="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-lift)] md:p-10">
-          <form id="join-form" action="api/submit-application.php" method="POST" class="space-y-5">
+          <form id="join-form" action="/api/submit-application.php" method="POST" class="space-y-5">
             <input type="hidden" name="path" id="selected-path-input" value="<?php echo htmlspecialchars($selected_plan, ENT_QUOTES, 'UTF-8'); ?>" />
             
             <!-- Honeypot anti-spam field (hidden from real users) -->
@@ -37,13 +37,13 @@ include __DIR__ . '/includes/header.php';
             <div>
               <label class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 eyebrow text-[0.65rem]">Choose your path</label>
               <div class="mt-2 grid grid-cols-3 gap-2">
-                <button type="button" data-path="Xlator" aria-pressed="<?php echo ($selected_plan === 'Xlator') ? 'true' : 'false'; ?>" class="path-selector-btn rounded-lg border-2 px-3 py-3 text-sm font-semibold transition-colors <?php echo ($selected_plan === 'Xlator') ? 'border-ink bg-ink text-ink-foreground selected' : 'border-border hover:border-ink'; ?>">
+                <button type="button" data-path="Xlator" aria-pressed="<?php echo ($selected_plan === 'Xlator') ? 'true' : 'false'; ?>" class="path-selector-btn rounded-lg border-2 px-2 py-3 text-xs sm:text-sm font-semibold transition-colors text-center flex items-center justify-center <?php echo ($selected_plan === 'Xlator') ? 'border-ink bg-ink text-ink-foreground selected' : 'border-border hover:border-ink'; ?>">
                   Xlator
                 </button>
-                <button type="button" data-path="Xlator Elite" aria-pressed="<?php echo ($selected_plan === 'Xlator Elite') ? 'true' : 'false'; ?>" class="path-selector-btn rounded-lg border-2 px-3 py-3 text-sm font-semibold transition-colors <?php echo ($selected_plan === 'Xlator Elite') ? 'border-ink bg-ink text-ink-foreground selected' : 'border-border hover:border-ink'; ?>">
+                <button type="button" data-path="Xlator Elite" aria-pressed="<?php echo ($selected_plan === 'Xlator Elite') ? 'true' : 'false'; ?>" class="path-selector-btn rounded-lg border-2 px-2 py-3 text-xs sm:text-sm font-semibold transition-colors text-center flex items-center justify-center <?php echo ($selected_plan === 'Xlator Elite') ? 'border-ink bg-ink text-ink-foreground selected' : 'border-border hover:border-ink'; ?>">
                   Xlator Elite
                 </button>
-                <button type="button" data-path="Undecided" aria-pressed="<?php echo ($selected_plan === 'Undecided') ? 'true' : 'false'; ?>" class="path-selector-btn rounded-lg border-2 px-3 py-3 text-sm font-semibold transition-colors <?php echo ($selected_plan === 'Undecided') ? 'border-ink bg-ink text-ink-foreground selected' : 'border-border hover:border-ink'; ?>">
+                <button type="button" data-path="Undecided" aria-pressed="<?php echo ($selected_plan === 'Undecided') ? 'true' : 'false'; ?>" class="path-selector-btn rounded-lg border-2 px-2 py-3 text-xs sm:text-sm font-semibold transition-colors text-center flex items-center justify-center <?php echo ($selected_plan === 'Undecided') ? 'border-ink bg-ink text-ink-foreground selected' : 'border-border hover:border-ink'; ?>">
                   Undecided
                 </button>
               </div>

@@ -17,17 +17,17 @@ include __DIR__ . '/includes/header.php';
       <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-10 md:py-24">
         <div class="animate-rise">
           <p class="eyebrow text-brand">The program</p>
-          <h1 class="headline mt-4 text-5xl md:text-6xl">Purpose-driven brands,<br/><span class="text-brand">built over time</span></h1>
+          <h1 class="headline mt-4 text-4xl sm:text-5xl md:text-6xl">Purpose-driven brands,<br/><span class="text-brand">built over time</span></h1>
           <p class="mt-8 max-w-lg text-lg text-muted-foreground">Xlator is a purpose-driven brand-building mentorship program that helps business owners defy convention, redefine expectations and ignite positive change through continuous learning and iterative brand processes.</p>
           <p class="mt-4 max-w-lg text-lg text-muted-foreground">Two mentors. Years of brand-building experience. Now on your team, mentoring your business to become a great brand that scales and grows beyond the usual trajectory.</p>
         </div>
-        <img src="images/staircase-growth.jpg" alt="Businessman climbing a staircase above a city skyline" class="photo-mono w-full rounded-3xl object-cover shadow-[var(--shadow-lift)]"/>
+        <img src="/images/staircase-growth.jpg" alt="Businessman climbing a staircase above a city skyline" class="photo-mono w-full rounded-3xl object-cover shadow-[var(--shadow-lift)]"/>
       </div>
     </section>
 
     <!-- Setting the Right Process -->
     <section class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 md:grid-cols-2 md:px-10">
-      <img src="images/building-blocks.jpg" alt="Hand placing building blocks" loading="lazy" class="photo-mono order-last w-full rounded-3xl object-cover md:order-first"/>
+      <img src="/images/building-blocks.jpg" alt="Hand placing building blocks" loading="lazy" class="photo-mono order-last w-full rounded-3xl object-cover md:order-first"/>
       <div>
         <h2 class="headline text-4xl md:text-5xl">Setting the right process for <span class="text-brand">great brands</span></h2>
         <p class="mt-6 text-muted-foreground">The mentorship program helps you find the right people, right attitude, right culture, right method, right process, right strategy, right action — and finally, the right brand — through hours of learning, implementation, execution, collaboration and partnerships.</p>
@@ -69,12 +69,12 @@ include __DIR__ . '/includes/header.php';
     <!-- Community & Scale -->
     <section class="mx-auto grid max-w-7xl gap-16 px-5 py-20 md:grid-cols-2 md:px-10 md:py-28">
       <div>
-        <img src="images/community.jpg" alt="Community of business owners" loading="lazy" class="photo-mono w-full rounded-3xl object-cover"/>
+        <img src="/images/community.jpg" alt="Community of business owners" loading="lazy" class="photo-mono w-full rounded-3xl object-cover"/>
         <h2 class="headline mt-10 text-3xl md:text-4xl">A community to unleash <span class="text-brand">uncommon brand growth</span></h2>
         <p class="mt-5 text-muted-foreground">Xlator is a community of like-minded growth people, defying convention to embrace uncommon growth through everyday brilliance — driven by insights and mindful actions that touch every aspect of your business, from people to process.</p>
       </div>
       <div>
-        <img src="images/collaboration.jpg" alt="Team collaborating at a table" loading="lazy" class="photo-mono w-full rounded-3xl object-cover"/>
+        <img src="/images/collaboration.jpg" alt="Team collaborating at a table" loading="lazy" class="photo-mono w-full rounded-3xl object-cover"/>
         <h2 class="headline mt-10 text-3xl md:text-4xl">From identity to scale.</h2>
         <ul class="mt-5 space-y-2 font-semibold uppercase">
           <li>100+ hours | 4 offline sessions</li>
@@ -118,7 +118,7 @@ include __DIR__ . '/includes/header.php';
             </li>
           </ul>
         </div>
-        <img src="images/dashboard-work.jpg" alt="Working on marketing data charts" loading="lazy" class="photo-mono w-full rounded-3xl object-cover"/>
+        <img src="/images/dashboard-work.jpg" alt="Working on marketing data charts" loading="lazy" class="photo-mono w-full rounded-3xl object-cover"/>
       </div>
     </section>
 

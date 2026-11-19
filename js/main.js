@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const formData = new FormData(joinForm);
-        const endpoint = joinForm.getAttribute('action') || 'api/submit-application.php';
+        const endpoint = joinForm.getAttribute('action') || '/api/submit-application.php';
         
         const response = await fetch(endpoint, {
           method: 'POST',
