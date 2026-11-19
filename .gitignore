@@ -18,6 +18,10 @@ test_*.php
 .vscode/
 .idea/
 
+# User Data & Form Submissions
+data/applications.json
+data/leads.csv
+
 # Playwright
 node_modules/
 /test-results/
