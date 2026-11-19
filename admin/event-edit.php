@@ -46,43 +46,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($file['error'] === UPLOAD_ERR_OK) {
                     $allowed_exts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
                     $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-                    $max_size = 10 * 1024 * 1024; // 10MB limit
+                    $max_size = defined('MAX_UPLOAD_SIZE') ? MAX_UPLOAD_SIZE : (5 * 1024 * 1024);
+                    $max_mb = defined('MAX_UPLOAD_SIZE_MB') ? MAX_UPLOAD_SIZE_MB : 5;
 
                     if (!in_array($file_ext, $allowed_exts)) {
                         $error = 'Invalid image format. Please upload JPG, PNG, WEBP, or GIF.';
                     } elseif ($file['size'] > $max_size) {
-                        $error = 'Image file too large. Maximum allowed size is 10MB.';
+                        $error = 'Image file too large. Maximum allowed size is ' . $max_mb . 'MB.';
                     } else {
                         // Validate that file is actually an image
                         $img_info = @getimagesize($file['tmp_name']);
                         if ($img_info === false) {
                             $error = 'The uploaded file is not a valid image.';
                         } else {
-                            $uploads_dir = __DIR__ . '/../uploads/events';
-                            if (!is_dir($uploads_dir)) {
-                                @mkdir($uploads_dir, 0755, true);
-                            }
-
-                            // Generate clean, unique filename
-                            $raw_title = !empty($_POST['slug']) ? $_POST['slug'] : $title;
-                            $clean_base = preg_replace('/[^a-zA-Z0-9_-]/', '-', strtolower($raw_title));
-                            $clean_base = substr($clean_base, 0, 30);
-                            $new_filename = 'event_' . time() . '_' . $clean_base . '.' . $file_ext;
-                            $target_dest = $uploads_dir . '/' . $new_filename;
-
-                            if (move_uploaded_file($file['tmp_name'], $target_dest)) {
-                                $final_image = 'uploads/events/' . $new_filename;
+                            $binary = file_get_contents($file['tmp_name']);
+                            if ($binary === false) {
+                                $error = 'Failed to read uploaded image data.';
                             } else {
-                                $error = 'Failed to save uploaded image. Check directory write permissions on host.';
+                                $raw_title = !empty($_POST['slug']) ? (string)$_POST['slug'] : $title;
+                                $clean_base = preg_replace('/[^a-zA-Z0-9_-]/', '-', strtolower($raw_title));
+                                $clean_base = substr((string)$clean_base, 0, 30);
+                                $clean_filename = 'event_' . time() . '_' . $clean_base . '.' . $file_ext;
+                                $mime = $img_info['mime'] ?? 'image/jpeg';
+                                $media_id = save_media_blob($clean_filename, $mime, $binary);
+                                $final_image = 'image.php?id=' . $media_id;
                             }
                         }
                     }
                 } else {
-                    $error = 'File upload failed with error code: ' . $file['error'];
+                    $error = in_array($file['error'], [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE], true)
+                        ? 'Image file too large. Maximum allowed size is ' . MAX_UPLOAD_SIZE_MB . 'MB.'
+                        : 'File upload failed with error code: ' . $file['error'];
                 }
             }
 
             if (empty($error)) {
+                $time_input = trim($_POST['time'] ?? '');
+                if (isset($_POST['time_start']) && trim($_POST['time_start']) !== '') {
+                    $st = strtotime(trim($_POST['time_start']));
+                    $start_fmt = $st ? date('g:i a', $st) : trim($_POST['time_start']);
+                    if (!empty($_POST['time_end']) && trim($_POST['time_end']) !== '') {
+                        $et = strtotime(trim($_POST['time_end']));
+                        $end_fmt = $et ? date('g:i a', $et) : trim($_POST['time_end']);
+                        $time_input = $start_fmt . ' – ' . $end_fmt;
+                    } else {
+                        $time_input = $start_fmt;
+                    }
+                }
+                if ($time_input === '') {
+                    $time_input = '10:00 am – 5:00 pm';
+                }
+
                 $data = [
                     'id'           => $is_edit ? $id : '',
                     'title'        => $title,
@@ -91,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'summary'      => trim($_POST['summary'] ?? ''),
                     'description'  => trim($_POST['description'] ?? ''),
                     'date'         => $date,
-                    'time'         => trim($_POST['time'] ?? '10:00 am – 5:00 pm'),
+                    'time'         => $time_input,
                     'location'     => trim($_POST['location'] ?? 'Kochi, Kerala'),
                     'format'       => trim($_POST['format'] ?? 'Offline'),
                     'image'        => $final_image,
@@ -113,6 +127,29 @@ $form_slug = $_POST['slug'] ?? ($event['slug'] ?? '');
 $form_category = $_POST['category'] ?? ($event['category'] ?? 'Offline Session');
 $form_date = $_POST['date'] ?? ($event['date'] ?? date('Y-m-d'));
 $form_time = $_POST['time'] ?? ($event['time'] ?? '10:00 am – 5:00 pm');
+
+// Parse start and end time for time pickers
+$normalized_time = str_replace(['—', '–', ' to '], ['-', '-', '-'], $form_time);
+$time_parts = explode('-', $normalized_time, 2);
+$parsed_start_time = '';
+$parsed_end_time = '';
+if (!empty($time_parts[0])) {
+    $st = strtotime(trim($time_parts[0]));
+    if ($st !== false) {
+        $parsed_start_time = date('H:i', $st);
+    }
+}
+if (isset($time_parts[1]) && trim($time_parts[1]) !== '') {
+    $et = strtotime(trim($time_parts[1]));
+    if ($et !== false) {
+        $parsed_end_time = date('H:i', $et);
+    }
+}
+if (!$is_edit && empty($_POST)) {
+    $parsed_start_time = '10:00';
+    $parsed_end_time = '17:00';
+}
+
 $form_format = $_POST['format'] ?? ($event['format'] ?? 'Offline');
 $form_location = $_POST['location'] ?? ($event['location'] ?? 'Kochi, Kerala');
 $form_summary = $_POST['summary'] ?? ($event['summary'] ?? '');
@@ -132,7 +169,7 @@ $preset_images = [
     'images/dashboard-work.jpg'        => 'Dashboard Workspace'
 ];
 
-// Build full gallery: Presets + Uploads
+// Build full gallery: Presets + Database Uploads
 $gallery_items = [];
 foreach ($preset_images as $path => $label) {
     $gallery_items[] = [
@@ -143,21 +180,15 @@ foreach ($preset_images as $path => $label) {
     ];
 }
 
-$uploads_dir = __DIR__ . '/../uploads/events';
-if (is_dir($uploads_dir)) {
-    $uploaded_files = scandir($uploads_dir);
-    foreach ($uploaded_files as $f) {
-        if ($f === '.' || $f === '..') continue;
-        $ext = strtolower(pathinfo($f, PATHINFO_EXTENSION));
-        if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
-            $gallery_items[] = [
-                'path'      => 'uploads/events/' . $f,
-                'label'     => $f,
-                'type'      => 'Uploaded',
-                'is_upload' => true
-            ];
-        }
-    }
+$db_media = get_all_media_meta();
+foreach ($db_media as $m) {
+    $gallery_items[] = [
+        'id'        => $m['id'],
+        'path'      => 'image.php?id=' . $m['id'],
+        'label'     => $m['filename'],
+        'type'      => 'Database Upload',
+        'is_upload' => true
+    ];
 }
 ?>
 <!DOCTYPE html>
@@ -178,13 +209,13 @@ if (is_dir($uploads_dir)) {
 
   <!-- Admin Header -->
   <header class="border-b border-border/70 bg-card py-4 px-6 md:px-10">
-    <div class="mx-auto max-w-5xl flex items-center justify-between">
+    <div class="admin-editor-header mx-auto max-w-5xl flex items-center justify-between gap-3">
       <div class="flex items-center gap-4">
         <a href="/admin/index.php" class="eyebrow text-xs hover:text-brand transition-colors inline-flex items-center gap-1.5">
           &larr; Back to Events
         </a>
       </div>
-      <span class="text-xs text-muted-foreground">
+      <span class="admin-editor-context text-xs text-muted-foreground">
         <?php echo $is_edit ? 'Editing: <strong>' . htmlspecialchars($form_title, ENT_QUOTES, 'UTF-8') . '</strong>' : 'New Event Draft'; ?>
       </span>
     </div>
@@ -239,15 +270,23 @@ if (is_dir($uploads_dir)) {
           </div>
 
           <!-- Date, Time, Format & Location Grid -->
-          <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+          <div class="admin-event-details-grid grid gap-6 sm:grid-cols-2 md:grid-cols-4">
             <div>
               <label class="eyebrow text-[0.65rem] font-medium" for="date">Event Date *</label>
               <input type="date" id="date" name="date" required value="<?php echo htmlspecialchars($form_date, ENT_QUOTES, 'UTF-8'); ?>" class="flex w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm mt-2 h-11"/>
             </div>
 
             <div>
-              <label class="eyebrow text-[0.65rem] font-medium" for="time">Time (e.g. 10:00 am – 5:00 pm)</label>
-              <input type="text" id="time" name="time" value="<?php echo htmlspecialchars($form_time, ENT_QUOTES, 'UTF-8'); ?>" class="flex w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm mt-2 h-11"/>
+              <div class="flex items-center justify-between">
+                <label class="eyebrow text-[0.65rem] font-medium" for="time_start">Time *</label>
+                <span id="time_formatted_display" class="text-[0.68rem] text-muted-foreground font-semibold"><?php echo htmlspecialchars($form_time, ENT_QUOTES, 'UTF-8'); ?></span>
+              </div>
+              <div class="mt-2 grid grid-cols-[1fr_auto_1fr] items-center gap-1.5">
+                <input type="time" id="time_start" name="time_start" value="<?php echo htmlspecialchars($parsed_start_time, ENT_QUOTES, 'UTF-8'); ?>" aria-label="Start time" title="Start Time" class="flex w-full rounded-md border border-input bg-card px-2.5 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm h-11"/>
+                <span class="text-xs text-muted-foreground font-bold px-0.5" aria-hidden="true">–</span>
+                <input type="time" id="time_end" name="time_end" value="<?php echo htmlspecialchars($parsed_end_time, ENT_QUOTES, 'UTF-8'); ?>" aria-label="End time" title="End Time" class="flex w-full rounded-md border border-input bg-card px-2.5 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm h-11"/>
+              </div>
+              <input type="hidden" id="time" name="time" value="<?php echo htmlspecialchars($form_time, ENT_QUOTES, 'UTF-8'); ?>"/>
             </div>
 
             <div>
@@ -362,7 +401,7 @@ if (is_dir($uploads_dir)) {
                   </div>
                   
                   <h3 class="upload-headline">Click to upload from gallery or drag &amp; drop</h3>
-                  <p class="upload-subtext">Accepts JPG, PNG, WEBP, or GIF &middot; Max 10MB</p>
+                  <p class="upload-subtext">Accepts JPG, PNG, WEBP, or GIF &middot; Max <?php echo MAX_UPLOAD_SIZE_MB; ?>MB</p>
                   
                   <div>
                     <span class="upload-cta-btn">
@@ -397,7 +436,7 @@ if (is_dir($uploads_dir)) {
               <div id="paneGallery" class="hidden space-y-3">
                 <div class="flex items-center justify-between text-xs px-1">
                   <span class="text-muted-foreground">Click any thumbnail below to select:</span>
-                  <span class="eyebrow text-[0.65rem] text-muted-foreground"><?php echo count($gallery_items); ?> Images in Library</span>
+                  <span id="galleryLibraryCount" class="eyebrow text-[0.65rem] text-muted-foreground"><?php echo count($gallery_items); ?> Images in Library</span>
                 </div>
 
                 <div class="gallery-picker-grid">
@@ -418,6 +457,21 @@ if (is_dir($uploads_dir)) {
                       <div class="gallery-check-icon">
                         ✓
                       </div>
+
+                      <?php if (!empty($item['is_upload']) && !empty($item['id'])): ?>
+                        <!-- Delete Button for uploaded database images -->
+                        <button type="button"
+                                class="gallery-delete-btn"
+                                onclick="event.stopPropagation(); deleteGalleryImage('<?php echo htmlspecialchars($item['id'], ENT_QUOTES, 'UTF-8'); ?>', '<?php echo htmlspecialchars($item['label'], ENT_QUOTES, 'UTF-8'); ?>', this.closest('.gallery-card'))"
+                                title="Delete from database">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                          </svg>
+                        </button>
+                      <?php endif; ?>
                     </div>
                   <?php endforeach; ?>
                 </div>
@@ -439,7 +493,7 @@ if (is_dir($uploads_dir)) {
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex items-center justify-end gap-4 pt-4">
+        <div class="admin-editor-actions flex items-center justify-end gap-4 pt-4">
           <a href="/admin/index.php" class="inline-flex items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-semibold hover:bg-muted transition-colors">
             Cancel
           </a>
@@ -517,6 +571,15 @@ if (is_dir($uploads_dir)) {
     function handleFileSelect(input) {
       if (input.files && input.files[0]) {
         const file = input.files[0];
+        const maxBytes = <?php echo MAX_UPLOAD_SIZE; ?>;
+        const maxMb = <?php echo MAX_UPLOAD_SIZE_MB; ?>;
+
+        if (file.size > maxBytes) {
+          const fileMb = (file.size / 1048576).toFixed(1);
+          alert(`Image file is too large (${fileMb} MB). Maximum allowed upload size is ${maxMb} MB.`);
+          input.value = '';
+          return;
+        }
 
         // Format file size
         const sizeFormatted = file.size > 1048576 
@@ -597,6 +660,95 @@ if (is_dir($uploads_dir)) {
           handleFileSelect(fileInput);
         }
       }, false);
+    }
+
+    // Time picker automatic 12-hour format converter
+    function formatTime12h(time24) {
+      if (!time24) return '';
+      const parts = time24.split(':');
+      let h = parseInt(parts[0], 10);
+      const m = parts[1] || '00';
+      const ampm = h >= 12 ? 'pm' : 'am';
+      h = h % 12;
+      h = h ? h : 12;
+      return `${h}:${m} ${ampm}`;
+    }
+
+    function updateEventTime() {
+      const startEl = document.getElementById('time_start');
+      const endEl = document.getElementById('time_end');
+      if (!startEl) return;
+      const startFmt = formatTime12h(startEl.value);
+      const endFmt = endEl ? formatTime12h(endEl.value) : '';
+
+      let formatted = '';
+      if (startFmt && endFmt) {
+        formatted = `${startFmt} – ${endFmt}`;
+      } else if (startFmt) {
+        formatted = startFmt;
+      } else if (endFmt) {
+        formatted = endFmt;
+      } else {
+        formatted = '10:00 am – 5:00 pm';
+      }
+
+      const timeInput = document.getElementById('time');
+      if (timeInput) timeInput.value = formatted;
+      const display = document.getElementById('time_formatted_display');
+      if (display) display.textContent = formatted;
+    }
+
+    const startTimeEl = document.getElementById('time_start');
+    const endTimeEl = document.getElementById('time_end');
+    if (startTimeEl) {
+      startTimeEl.addEventListener('input', updateEventTime);
+      startTimeEl.addEventListener('change', updateEventTime);
+    }
+    if (endTimeEl) {
+      endTimeEl.addEventListener('input', updateEventTime);
+      endTimeEl.addEventListener('change', updateEventTime);
+    }
+
+    // Delete uploaded image from database
+    async function deleteGalleryImage(id, label, cardEl) {
+      if (!confirm(`Are you sure you want to delete "${label}" from the database?`)) {
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('id', id);
+      formData.append('csrf_token', '<?php echo get_csrf_token(); ?>');
+
+      try {
+        const response = await fetch('/admin/media-delete.php', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          // If this image was currently selected, revert to default preset
+          const currentSelected = document.getElementById('selected_image').value;
+          if (currentSelected.includes(id)) {
+            selectGalleryImage('images/collaboration.jpg', 'Collaboration Table', null);
+          }
+
+          // Smoothly remove card from UI
+          cardEl.style.transition = 'all 0.25s ease';
+          cardEl.style.opacity = '0';
+          cardEl.style.transform = 'scale(0.8)';
+          setTimeout(() => {
+            cardEl.remove();
+            const remaining = document.querySelectorAll('.gallery-card').length;
+            const countEl = document.getElementById('galleryLibraryCount');
+            if (countEl) countEl.textContent = `${remaining} Images in Library`;
+          }, 250);
+        } else {
+          alert(data.error || 'Failed to delete image');
+        }
+      } catch (err) {
+        alert('An error occurred while deleting the image: ' + err.message);
+      }
     }
   </script>
 </body>

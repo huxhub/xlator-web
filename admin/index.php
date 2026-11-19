@@ -4,10 +4,12 @@
  */
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/events-db.php';
+require_once __DIR__ . '/../includes/applications-db.php';
 
 require_admin_login();
 
 $events = get_all_events(true);
+$application_count = get_application_count();
 $flash = get_flash_message();
 
 // Calculate stats
@@ -76,7 +78,7 @@ foreach ($events as $e) {
 
       <!-- Flash Notification -->
       <?php if ($flash): ?>
-        <div class="mb-6 rounded-2xl border p-4 text-sm font-medium animate-rise <?php echo $flash['type'] === 'success' ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-700' : 'border-brand/40 bg-brand/10 text-brand'; ?>">
+        <div class="admin-flash mb-6 rounded-2xl border p-4 text-sm font-medium animate-rise <?php echo $flash['type'] === 'success' ? 'admin-flash-success' : 'admin-flash-error'; ?>">
           <?php echo htmlspecialchars($flash['text'], ENT_QUOTES, 'UTF-8'); ?>
         </div>
       <?php endif; ?>
@@ -89,7 +91,10 @@ foreach ($events as $e) {
           <p class="mt-2 text-muted-foreground">Manage offline sessions, workshops, open houses and clinics.</p>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="admin-dashboard-actions flex items-center gap-3">
+          <a href="/admin/applications.php" class="inline-flex items-center justify-center rounded-full border border-border bg-card px-5 py-3 text-sm font-semibold hover:bg-muted transition-colors">
+            Applications (<?php echo $application_count; ?>)
+          </a>
           <a href="/admin/event-edit.php" class="inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer transition-colors rounded-full bg-brand text-brand-foreground uppercase tracking-wider font-semibold hover:bg-brand/90 shadow-[var(--shadow-lift)] h-12 px-6 text-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -129,7 +134,7 @@ foreach ($events as $e) {
           </div>
         <?php else: ?>
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm">
+            <table class="admin-events-table w-full text-left text-sm">
               <thead>
                 <tr class="bg-muted/60 border-b border-border">
                   <th class="py-4 px-6 eyebrow text-[0.65rem]">Date</th>
@@ -147,7 +152,7 @@ foreach ($events as $e) {
                 ?>
                   <tr class="hover:bg-muted/30 transition-colors group">
                     <!-- Date Column -->
-                    <td class="py-5 px-6 whitespace-nowrap align-top">
+                    <td data-label="Date" class="py-5 px-6 whitespace-nowrap align-top">
                       <div class="flex flex-col items-center justify-center rounded-xl border border-border bg-background px-3 py-2 w-14 text-center">
                         <span class="numeral text-2xl"><?php echo htmlspecialchars($event['day'] ?? '00', ENT_QUOTES, 'UTF-8'); ?></span>
                         <span class="eyebrow text-[0.55rem] tracking-wider"><?php echo htmlspecialchars($event['month'] ?? '---', ENT_QUOTES, 'UTF-8'); ?></span>
@@ -158,7 +163,7 @@ foreach ($events as $e) {
                     </td>
 
                     <!-- Title & Details -->
-                    <td class="py-5 px-6 align-top max-w-md">
+                    <td data-label="Event" class="py-5 px-6 align-top max-w-md">
                       <div class="flex items-start gap-4">
                         <div class="table-event-thumb">
                           <img src="<?php echo htmlspecialchars(get_asset_url($event['image'] ?? '', true), ENT_QUOTES, 'UTF-8'); ?>" alt="" class="photo-mono" />
@@ -170,7 +175,7 @@ foreach ($events as $e) {
                           <p class="text-xs text-muted-foreground line-clamp-2 mt-1">
                             <?php echo htmlspecialchars($event['summary'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
                           </p>
-                          <div class="flex items-center gap-3 text-xs text-muted-foreground mt-2">
+                          <div class="flex flex-wrap items-center gap-2 text-xs text-muted-foreground mt-2">
                             <span>&#128337; <?php echo htmlspecialchars($event['time'] ?? '', ENT_QUOTES, 'UTF-8'); ?></span>
                             <span>&bull;</span>
                             <span>&#128205; <?php echo htmlspecialchars($event['location'] ?? '', ENT_QUOTES, 'UTF-8'); ?></span>
@@ -180,14 +185,14 @@ foreach ($events as $e) {
                     </td>
 
                     <!-- Category -->
-                    <td class="py-5 px-6 align-top whitespace-nowrap">
+                    <td data-label="Category" class="py-5 px-6 align-top whitespace-nowrap">
                       <span class="inline-flex rounded-full bg-ink px-3 py-1 text-[0.65rem] font-semibold text-ink-foreground">
                         <?php echo htmlspecialchars($event['category'] ?? 'Session', ENT_QUOTES, 'UTF-8'); ?>
                       </span>
                     </td>
 
                     <!-- Format -->
-                    <td class="py-5 px-6 align-top whitespace-nowrap text-xs font-medium">
+                    <td data-label="Format" class="py-5 px-6 align-top whitespace-nowrap text-xs font-medium">
                       <?php if (($event['format'] ?? '') === 'Online'): ?>
                         <span class="text-blue-600 font-semibold">&#128187; Online</span>
                       <?php else: ?>
@@ -196,7 +201,7 @@ foreach ($events as $e) {
                     </td>
 
                     <!-- Status -->
-                    <td class="py-5 px-6 align-top whitespace-nowrap">
+                    <td data-label="Status" class="py-5 px-6 align-top whitespace-nowrap">
                       <?php if ($is_pub): ?>
                         <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-[0.65rem] font-bold text-emerald-700">
                           <span class="size-1.5 rounded-full bg-emerald-600"></span> Published
@@ -209,7 +214,7 @@ foreach ($events as $e) {
                     </td>
 
                     <!-- Actions -->
-                    <td class="py-5 px-6 align-top text-right whitespace-nowrap">
+                    <td data-label="Actions" class="py-5 px-6 align-top text-right whitespace-nowrap">
                       <div class="flex items-center justify-end gap-2">
                         <a href="/events.php?slug=<?php echo urlencode($event['slug'] ?? ''); ?>" target="_blank" title="View Public Page" class="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -218,7 +223,7 @@ foreach ($events as $e) {
                             <line x1="10" y1="14" x2="21" y2="3"></line>
                           </svg>
                         </a>
-                        <a href="/admin/event-edit.php?id=<?php echo urlencode($event['id']); ?>" class="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:border-ink hover:bg-ink hover:text-ink-foreground transition-colors">
+                        <a href="/admin/event-edit.php?id=<?php echo urlencode($event['id']); ?>" class="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:border-ink hover:bg-foreground hover:text-ink-foreground transition-colors">
                           Edit
                         </a>
                         <form method="POST" action="/admin/event-delete.php" onsubmit="return confirm('Are you sure you want to delete this event? This action cannot be undone.');" class="inline-block">

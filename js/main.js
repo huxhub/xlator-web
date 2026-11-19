@@ -107,6 +107,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (response.ok && data.success) {
           if (formSuccess) {
+            if (data.notification_sent === false) {
+              const copy = document.querySelector('#application-success-copy');
+              if (copy) {
+                copy.textContent = 'Your application was saved, but the email notification could not be sent. Please contact the team directly';
+                if (data.contact_email) {
+                  const link = document.createElement('a');
+                  link.href = `mailto:${data.contact_email}`;
+                  link.textContent = ` at ${data.contact_email}`;
+                  link.className = 'underline font-semibold';
+                  copy.append(link);
+                }
+                copy.append('.');
+              }
+            }
             joinForm.style.display = 'none';
             formSuccess.classList.remove('hidden');
             formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });

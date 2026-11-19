@@ -1,256 +1,113 @@
 <?php
+require_once __DIR__ . '/database.php';
+
 /**
- * Xlator - Events Data Access Layer
- * Zero-setup JSON database for managing events on Hostinger.
+ * @param array<string, mixed> $event
+ * @return array<string, mixed>
  */
-
-if (!defined('DATA_DIR')) {
-    require_once __DIR__ . '/config.php';
-}
-
-function get_events_file() {
-    $dir = DATA_DIR;
-    if (!is_dir($dir)) {
-        mkdir($dir, 0755, true);
-    }
-    return $dir . '/events.json';
+function normalize_event(array $event): array {
+    $event['is_published'] = (bool)$event['is_published'];
+    return $event;
 }
 
 /**
- * Seed initial events if database does not exist
+ * @param bool $include_unpublished
+ * @return array<int, array<string, mixed>>
  */
-function init_events_db() {
-    $file = get_events_file();
-    if (!file_exists($file)) {
-        $initial_events = [
-            [
-                'id'           => 'evt_brand_identity_2026',
-                'slug'         => 'brand-identity-masterclass-dec-2026',
-                'title'        => 'Brand Identity Masterclass',
-                'category'     => 'Offline Session',
-                'summary'      => "A hands-on day on finding your brand's purpose, positioning and voice with Brand Swamy & Faisal Cheeran.",
-                'description'  => "Step one of the Xlator framework: Build Identity. In this offline session, business owners work through purpose, positioning, audience and brand voice — leaving with a clear identity brief they can act on the very next day.\n\nWho should attend: founders, D2C & retail owners, first-generation entrepreneurs and family business successors.",
-                'date'         => '2026-12-12',
-                'date_display' => 'Sat, 12 Dec, 2026',
-                'day'          => '12',
-                'month'        => 'DEC',
-                'time'         => '10:00 am – 5:00 pm',
-                'location'     => 'Kochi, Kerala',
-                'format'       => 'Offline',
-                'image'        => 'images/collaboration.jpg',
-                'is_published' => true,
-                'created_at'   => '2026-11-12 08:00:00',
-                'updated_at'   => '2026-11-12 08:00:00'
-            ],
-            [
-                'id'           => 'evt_open_house_2027',
-                'slug'         => 'xlator-open-house-jan-2027',
-                'title'        => 'Xlator Open House',
-                'category'     => 'Program Info Session',
-                'summary'      => 'Meet the mentors, understand the Xlator and Xlator Elite paths, and ask anything before you join.',
-                'description'  => "An open evening for business owners considering the Brand Xlator mentorship programme. We walk through the five-stage framework, the 100+ hours of learning, offline sessions and the Elite benefits — followed by an open Q&A with the mentors.",
-                'date'         => '2027-01-09',
-                'date_display' => 'Sat, 9 Jan, 2027',
-                'day'          => '09',
-                'month'        => 'JAN',
-                'time'         => '6:00 pm – 8:00 pm',
-                'location'     => 'Online',
-                'format'       => 'Online',
-                'image'        => 'images/collaboration.jpg',
-                'is_published' => true,
-                'created_at'   => '2026-11-12 08:00:00',
-                'updated_at'   => '2026-11-12 08:00:00'
-            ],
-            [
-                'id'           => 'evt_quarterly_review_2027',
-                'slug'         => 'quarterly-marketing-review-feb-2027',
-                'title'        => 'Quarterly Marketing Review Clinic',
-                'category'     => 'Elite Session',
-                'summary'      => 'Bring your marketing plan. Leave with a sharper one. A review & performance analysis session for Elite members.',
-                'description'  => "Xlator Elite members review the last quarter against their marketing impact dashboard, identify what moved the needle and set the plan for the next quarter with mentor feedback.",
-                'date'         => '2027-02-06',
-                'date_display' => 'Sat, 6 Feb, 2027',
-                'day'          => '06',
-                'month'        => 'FEB',
-                'time'         => '10:00 am – 2:00 pm',
-                'location'     => 'Kochi, Kerala',
-                'format'       => 'Offline',
-                'image'        => 'images/collaboration.jpg',
-                'is_published' => true,
-                'created_at'   => '2026-11-12 08:00:00',
-                'updated_at'   => '2026-11-12 08:00:00'
-            ]
-        ];
-        file_put_contents($file, json_encode($initial_events, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), LOCK_EX);
-    }
+function get_all_events(bool $include_unpublished = false): array {
+    $sql = 'SELECT * FROM events' . ($include_unpublished ? '' : ' WHERE is_published = 1') . ' ORDER BY date ASC';
+    return array_map('normalize_event', get_db()->query($sql)->fetchAll());
 }
 
 /**
- * Retrieve all events
+ * @param string $id
+ * @return array<string, mixed>|null
  */
-function get_all_events($include_unpublished = false) {
-    init_events_db();
-    $file = get_events_file();
-    if (!file_exists($file)) {
-        return [];
-    }
-    $events = json_decode(file_get_contents($file), true) ?: [];
-    
-    if (!$include_unpublished) {
-        $events = array_filter($events, function($e) {
-            return !empty($e['is_published']);
-        });
-    }
-    
-    // Sort by date ascending
-    usort($events, function($a, $b) {
-        return strcmp($a['date'] ?? '', $b['date'] ?? '');
-    });
-    
-    return array_values($events);
+function get_event_by_id(string $id): ?array {
+    $stmt = get_db()->prepare('SELECT * FROM events WHERE id = ?');
+    $stmt->execute([$id]);
+    $event = $stmt->fetch();
+    return $event ? normalize_event($event) : null;
 }
 
 /**
- * Retrieve a single event by ID
+ * @param string $slug
+ * @return array<string, mixed>|null
  */
-function get_event_by_id($id) {
-    $events = get_all_events(true);
-    foreach ($events as $event) {
-        if (($event['id'] ?? '') === $id) {
-            return $event;
-        }
-    }
-    return null;
+function get_event_by_slug(string $slug): ?array {
+    $stmt = get_db()->prepare('SELECT * FROM events WHERE slug = ?');
+    $stmt->execute([$slug]);
+    $event = $stmt->fetch();
+    return $event ? normalize_event($event) : null;
 }
 
 /**
- * Retrieve a single event by slug
+ * @param int|null $limit
+ * @return array<int, array<string, mixed>>
  */
-function get_event_by_slug($slug) {
-    $events = get_all_events(true);
-    foreach ($events as $event) {
-        if (($event['slug'] ?? '') === $slug) {
-            return $event;
-        }
-    }
-    return null;
+function get_upcoming_events(?int $limit = null): array {
+    $events = array_values(array_filter(get_all_events(), function (array $event): bool {
+        return $event['date'] >= date('Y-m-d');
+    }));
+    return $limit === null ? $events : array_slice($events, 0, $limit);
 }
 
 /**
- * Filter upcoming events (date >= today)
+ * @param int|null $limit
+ * @return array<int, array<string, mixed>>
  */
-function get_upcoming_events($limit = null) {
-    $all = get_all_events(false);
-    $today = date('Y-m-d');
-    $upcoming = array_filter($all, function($e) use ($today) {
-        return ($e['date'] ?? '') >= $today;
-    });
-    
-    usort($upcoming, function($a, $b) {
-        return strcmp($a['date'] ?? '', $b['date'] ?? '');
-    });
-    
-    if ($limit !== null) {
-        return array_slice(array_values($upcoming), 0, $limit);
-    }
-    return array_values($upcoming);
+function get_past_events(?int $limit = null): array {
+    $events = array_values(array_filter(get_all_events(), function (array $event): bool {
+        return $event['date'] < date('Y-m-d');
+    }));
+    usort($events, function (array $a, array $b): int { return strcmp($b['date'], $a['date']); });
+    return $limit === null ? $events : array_slice($events, 0, $limit);
 }
 
 /**
- * Filter past events (date < today)
+ * @param array<string, mixed> $data
+ * @return array<string, mixed>
  */
-function get_past_events($limit = null) {
-    $all = get_all_events(false);
-    $today = date('Y-m-d');
-    $past = array_filter($all, function($e) use ($today) {
-        return ($e['date'] ?? '') < $today;
-    });
-    
-    usort($past, function($a, $b) {
-        return strcmp($b['date'] ?? '', $a['date'] ?? '');
-    });
-    
-    if ($limit !== null) {
-        return array_slice(array_values($past), 0, $limit);
-    }
-    return array_values($past);
-}
-
-/**
- * Save (create or update) an event
- */
-function save_event($data) {
-    init_events_db();
-    $events = get_all_events(true);
-    $file = get_events_file();
-    
-    $is_edit = !empty($data['id']);
-    $id = $is_edit ? $data['id'] : uniqid('evt_', true);
-    
-    // Generate clean slug
-    $title = trim($data['title'] ?? 'Untitled Event');
-    $slug = trim($data['slug'] ?? '');
-    if (empty($slug)) {
-        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title), '-'));
-    }
-    
-    // Format date components
-    $date = trim($data['date'] ?? date('Y-m-d'));
+function save_event(array $data): array {
+    $now = date('Y-m-d H:i:s');
+    $id = !empty($data['id']) ? (string)$data['id'] : uniqid('evt_', true);
+    $existing = get_event_by_id($id);
+    $title = trim((string)($data['title'] ?? 'Untitled Event'));
+    $slug = trim((string)($data['slug'] ?? ''));
+    if ($slug === '') $slug = strtolower(trim((string)preg_replace('/[^A-Za-z0-9-]+/', '-', $title), '-'));
+    $date = trim((string)($data['date'] ?? date('Y-m-d')));
     $timestamp = strtotime($date);
-    $day = $timestamp ? date('d', $timestamp) : date('d');
-    $month = $timestamp ? strtoupper(date('M', $timestamp)) : strtoupper(date('M'));
-    $date_display = $timestamp ? date('D, j M, Y', $timestamp) : $date;
-    
-    $event_record = [
-        'id'           => $id,
-        'slug'         => $slug,
-        'title'        => $title,
-        'category'     => trim($data['category'] ?? 'Offline Session'),
-        'summary'      => trim($data['summary'] ?? ''),
-        'description'  => trim($data['description'] ?? ''),
-        'date'         => $date,
-        'date_display' => $date_display,
-        'day'          => $day,
-        'month'        => $month,
-        'time'         => trim($data['time'] ?? '10:00 am – 5:00 pm'),
-        'location'     => trim($data['location'] ?? 'Kochi, Kerala'),
-        'format'       => trim($data['format'] ?? 'Offline'),
-        'image'        => !empty($data['image']) ? trim($data['image']) : 'images/collaboration.jpg',
-        'is_published' => !empty($data['is_published']),
-        'updated_at'   => date('Y-m-d H:i:s')
+    $event = [
+        'id' => $id, 'slug' => $slug, 'title' => $title,
+        'category' => trim((string)($data['category'] ?? 'Offline Session')),
+        'summary' => trim((string)($data['summary'] ?? '')),
+        'description' => trim((string)($data['description'] ?? '')),
+        'date' => $date,
+        'date_display' => $timestamp ? date('D, j M, Y', $timestamp) : $date,
+        'day' => $timestamp ? date('d', $timestamp) : date('d'),
+        'month' => $timestamp ? strtoupper(date('M', $timestamp)) : strtoupper(date('M')),
+        'time' => trim((string)($data['time'] ?? '10:00 am – 5:00 pm')),
+        'location' => trim((string)($data['location'] ?? 'Kochi, Kerala')),
+        'format' => trim((string)($data['format'] ?? 'Offline')),
+        'image' => !empty($data['image']) ? trim((string)$data['image']) : 'images/collaboration.jpg',
+        'is_published' => (int)!empty($data['is_published']),
+        'created_at' => $existing['created_at'] ?? $now, 'updated_at' => $now
     ];
-    
-    $found = false;
-    foreach ($events as $index => $item) {
-        if ($item['id'] === $id) {
-            $event_record['created_at'] = $item['created_at'] ?? date('Y-m-d H:i:s');
-            $events[$index] = $event_record;
-            $found = true;
-            break;
-        }
-    }
-    
-    if (!$found) {
-        $event_record['created_at'] = date('Y-m-d H:i:s');
-        $events[] = $event_record;
-    }
-    
-    file_put_contents($file, json_encode($events, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), LOCK_EX);
-    return $event_record;
+    $columns = array_keys($event);
+    $updates = implode(', ', array_map(function ($column) { return "$column = excluded.$column"; },
+        array_filter($columns, function ($column) { return $column !== 'id' && $column !== 'created_at'; })));
+    $stmt = get_db()->prepare('INSERT INTO events (' . implode(', ', $columns) . ') VALUES (' .
+        implode(', ', array_fill(0, count($columns), '?')) . ") ON CONFLICT(id) DO UPDATE SET $updates");
+    $stmt->execute(array_values($event));
+    $event['is_published'] = (bool)$event['is_published'];
+    return $event;
 }
 
 /**
- * Delete an event
+ * @param string $id
+ * @return bool
  */
-function delete_event($id) {
-    init_events_db();
-    $events = get_all_events(true);
-    $file = get_events_file();
-    
-    $filtered = array_filter($events, function($e) use ($id) {
-        return $e['id'] !== $id;
-    });
-    
-    file_put_contents($file, json_encode(array_values($filtered), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), LOCK_EX);
-    return true;
+function delete_event(string $id): bool {
+    $stmt = get_db()->prepare('DELETE FROM events WHERE id = ?');
+    return $stmt->execute([$id]);
 }

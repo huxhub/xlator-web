@@ -10,13 +10,19 @@ error_reporting(E_ALL);
 
 /**
  * Load environment variables from .env file if available
+ *
+ * @param string $filePath
+ * @return void
  */
 if (!function_exists('load_dotenv')) {
-    function load_dotenv($filePath) {
+    function load_dotenv(string $filePath): void {
         if (!file_exists($filePath) || !is_readable($filePath)) {
             return;
         }
         $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false) {
+            return;
+        }
         foreach ($lines as $line) {
             $line = trim($line);
             if ($line === '' || strpos($line, '#') === 0) {
@@ -44,9 +50,13 @@ load_dotenv(__DIR__ . '/../.env');
 
 /**
  * Helper to fetch environment variable with fallback
+ *
+ * @param string $key
+ * @param mixed $default
+ * @return mixed
  */
 if (!function_exists('env')) {
-    function env($key, $default = null) {
+    function env(string $key, mixed $default = null): mixed {
         $val = getenv($key);
         if ($val !== false) {
             return $val;
@@ -64,7 +74,11 @@ define('DATA_DIR', __DIR__ . '/../data');
 // Admin credentials loaded from environment (.env)
 define('ADMIN_USERNAME', env('ADMIN_USERNAME', 'xlator'));
 define('ADMIN_PASSWORD', env('ADMIN_PASSWORD', ''));
-define('ADMIN_PASSWORD_HASH', env('ADMIN_PASSWORD_HASH', '$2y$10$AT64XSre.2l56FoCx0AU/eagN2AD4PJaOqHQA5s97wAzPhc7e4tPG'));
+define('ADMIN_PASSWORD_HASH', env('ADMIN_PASSWORD_HASH', ''));
+
+// Upload limits (configurable via .env: MAX_UPLOAD_SIZE=5242880 or MAX_UPLOAD_SIZE_MB=5)
+define('MAX_UPLOAD_SIZE', (int)env('MAX_UPLOAD_SIZE', 5 * 1024 * 1024)); // 5MB default
+define('MAX_UPLOAD_SIZE_MB', (int)env('MAX_UPLOAD_SIZE_MB', 5));
 
 // Start session if not started, with robust fallback path
 if (session_status() === PHP_SESSION_NONE) {
@@ -80,8 +94,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
 /**
  * Generate CSRF token
+ *
+ * @return string
  */
-function get_csrf_token() {
+function get_csrf_token(): string {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
@@ -90,19 +106,28 @@ function get_csrf_token() {
 
 /**
  * Validate CSRF token
+ *
+ * @param string|null $token
+ * @return bool
  */
-function verify_csrf_token($token) {
-    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+function verify_csrf_token(?string $token): bool {
+    return !empty($token) && isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
 /**
  * Admin authentication checks
+ *
+ * @return bool
  */
-function is_admin_logged_in() {
+function is_admin_logged_in(): bool {
     return !empty($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
 }
 
-function require_admin_login($redirect_to = '/admin/login.php') {
+/**
+ * @param string $redirect_to
+ * @return void
+ */
+function require_admin_login(string $redirect_to = '/admin/login.php'): void {
     if (!is_admin_logged_in()) {
         header("Location: $redirect_to");
         exit;
@@ -111,15 +136,22 @@ function require_admin_login($redirect_to = '/admin/login.php') {
 
 /**
  * Flash messaging system
+ *
+ * @param string $type
+ * @param string $message
+ * @return void
  */
-function set_flash_message($type, $message) {
+function set_flash_message(string $type, string $message): void {
     $_SESSION['flash_message'] = [
         'type' => $type, // 'success', 'error', 'info'
         'text' => $message
     ];
 }
 
-function get_flash_message() {
+/**
+ * @return array<string, string>|null
+ */
+function get_flash_message(): ?array {
     if (!empty($_SESSION['flash_message'])) {
         $msg = $_SESSION['flash_message'];
         unset($_SESSION['flash_message']);
@@ -130,8 +162,12 @@ function get_flash_message() {
 
 /**
  * Resolve image asset path for admin or frontend
+ *
+ * @param string|null $path
+ * @param bool $is_admin
+ * @return string
  */
-function get_asset_url($path, $is_admin = false) {
+function get_asset_url(?string $path, bool $is_admin = false): string {
     if (empty($path)) {
         return '/images/collaboration.jpg';
     }
@@ -144,8 +180,12 @@ function get_asset_url($path, $is_admin = false) {
 
 /**
  * Generate URL with relative path support
+ *
+ * @param string $path
+ * @param bool $is_nested
+ * @return string
  */
-function url($path = '', $is_nested = false) {
+function url(string $path = '', bool $is_nested = false): string {
     $prefix = $is_nested ? '../' : '';
     if (empty($path) || $path === '/') {
         return $prefix . 'index.php';
@@ -164,8 +204,12 @@ function url($path = '', $is_nested = false) {
 
 /**
  * Generate Asset URL
+ *
+ * @param string $path
+ * @param bool $is_nested
+ * @return string
  */
-function asset($path, $is_nested = false) {
+function asset(string $path, bool $is_nested = false): string {
     $prefix = $is_nested ? '../' : '';
     return $prefix . ltrim($path, '/');
 }

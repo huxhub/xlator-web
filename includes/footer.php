@@ -32,7 +32,9 @@ $prefix = $is_nested ? '../' : '';
       <div class="border-t border-ink-foreground/10">
         <div class="mx-auto flex max-w-7xl flex-col justify-between gap-2 px-5 py-6 text-xs text-ink-foreground/50 md:flex-row md:px-10">
           <span>&copy; <?php echo date('Y'); ?> Xlator &middot; Brand Swamy&reg;</span>
-          <a class="hover:text-ink-foreground transition-colors cursor-pointer" href="/admin/index.php">Team login</a>
+          <?php if (($current_page ?? '') !== 'home'): ?>
+            <a class="hover:text-ink-foreground transition-colors cursor-pointer" href="/admin/index.php">Team login</a>
+          <?php endif; ?>
         </div>
       </div>
     </footer>

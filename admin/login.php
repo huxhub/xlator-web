@@ -24,8 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $is_valid_pass = true;
     } elseif (!empty(ADMIN_PASSWORD) && $password === ADMIN_PASSWORD) {
         $is_valid_pass = true;
-    } elseif ($password === 'password123') {
-        $is_valid_pass = true;
     }
 
     if ($is_valid_user && $is_valid_pass) {

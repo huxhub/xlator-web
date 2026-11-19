@@ -93,7 +93,7 @@ include __DIR__ . '/includes/header.php';
               </svg>
             </div>
             <h3 class="headline text-2xl md:text-3xl">Application Received!</h3>
-            <p class="mt-3 text-muted-foreground max-w-md mx-auto">
+            <p id="application-success-copy" class="mt-3 text-muted-foreground max-w-md mx-auto">
               Thank you for choosing Brand Xlator. Our mentorship team will review your application and contact you within 2 business days.
             </p>
             <div class="mt-6">
