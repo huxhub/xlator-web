@@ -93,19 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           Sign In
         </button>
       </form>
-
-      <!-- Default credentials hint with 1-click auto-fill -->
-      <div class="mt-8 rounded-xl border border-border bg-muted/50 p-4 text-xs text-muted-foreground text-center">
-        <p class="font-semibold text-foreground mb-1">Default Login Credentials</p>
-        <p>Username: <code class="font-mono text-brand font-bold">admin</code></p>
-        <p>Password: <code class="font-mono text-brand font-bold">password123</code></p>
-        <div class="mt-3">
-          <button type="button" onclick="fillCredentials()" class="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand/10 text-brand font-semibold text-[0.75rem] hover:bg-brand hover:text-white transition-colors">
-            ⚡ Auto-Fill Credentials
-          </button>
-        </div>
-        <p class="mt-2 text-[0.7rem] opacity-75">Configurable in <code>includes/config.php</code></p>
-      </div>
     </div>
   </main>
 
@@ -120,13 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         pass.type = 'password';
         btn.textContent = 'Show';
       }
-    }
-
-    function fillCredentials() {
-      document.getElementById('username').value = 'admin';
-      document.getElementById('password').value = 'password123';
-      const pass = document.getElementById('password');
-      pass.focus();
     }
   </script>
 
