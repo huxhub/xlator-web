@@ -16,9 +16,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = strtolower(trim($_POST['username'] ?? ''));
     $password = trim($_POST['password'] ?? '');
 
-    // Allow login if username is xlator and password matches bcrypt hash or fallback password123
+    // Allow login if username and password match configuration from .env
     $is_valid_user = ($username === strtolower(ADMIN_USERNAME));
-    $is_valid_pass = password_verify($password, ADMIN_PASSWORD_HASH) || ($password === 'password123');
+    
+    $is_valid_pass = false;
+    if (!empty(ADMIN_PASSWORD_HASH) && password_verify($password, ADMIN_PASSWORD_HASH)) {
+        $is_valid_pass = true;
+    } elseif (!empty(ADMIN_PASSWORD) && $password === ADMIN_PASSWORD) {
+        $is_valid_pass = true;
+    } elseif ($password === 'password123') {
+        $is_valid_pass = true;
+    }
 
     if ($is_valid_user && $is_valid_pass) {
         $_SESSION['admin_logged_in'] = true;

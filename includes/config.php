@@ -8,16 +8,63 @@
 ini_set('display_errors', '0');
 error_reporting(E_ALL);
 
+/**
+ * Load environment variables from .env file if available
+ */
+if (!function_exists('load_dotenv')) {
+    function load_dotenv($filePath) {
+        if (!file_exists($filePath) || !is_readable($filePath)) {
+            return;
+        }
+        $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '' || strpos($line, '#') === 0) {
+                continue;
+            }
+            if (strpos($line, '=') !== false) {
+                list($key, $val) = explode('=', $line, 2);
+                $key = trim($key);
+                $val = trim($val);
+                // Strip surrounding single or double quotes
+                if ((substr($val, 0, 1) === '"' && substr($val, -1) === '"') ||
+                    (substr($val, 0, 1) === "'" && substr($val, -1) === "'")) {
+                    $val = substr($val, 1, -1);
+                }
+                putenv("$key=$val");
+                $_ENV[$key] = $val;
+                $_SERVER[$key] = $val;
+            }
+        }
+    }
+}
+
+// Load .env
+load_dotenv(__DIR__ . '/../.env');
+
+/**
+ * Helper to fetch environment variable with fallback
+ */
+if (!function_exists('env')) {
+    function env($key, $default = null) {
+        $val = getenv($key);
+        if ($val !== false) {
+            return $val;
+        }
+        return $_ENV[$key] ?? $_SERVER[$key] ?? $default;
+    }
+}
+
 // Site constants
-define('SITE_NAME', 'Xlator');
-define('SITE_TAGLINE', "Brands Aren't Born. They're Built Together.");
-define('ADMIN_EMAIL', 'hello@xlator.com'); // Update with your Hostinger notification email
+define('SITE_NAME', env('SITE_NAME', 'Xlator'));
+define('SITE_TAGLINE', env('SITE_TAGLINE', "Brands Aren't Born. They're Built Together."));
+define('ADMIN_EMAIL', env('ADMIN_EMAIL', 'hello@xlator.com'));
 define('DATA_DIR', __DIR__ . '/../data');
 
-// Admin credentials (Change these for your production Hostinger setup)
-define('ADMIN_USERNAME', 'xlator');
-// Default password: "password123" (hashed with BCRYPT)
-define('ADMIN_PASSWORD_HASH', '$2y$10$AT64XSre.2l56FoCx0AU/eagN2AD4PJaOqHQA5s97wAzPhc7e4tPG');
+// Admin credentials loaded from environment (.env)
+define('ADMIN_USERNAME', env('ADMIN_USERNAME', 'xlator'));
+define('ADMIN_PASSWORD', env('ADMIN_PASSWORD', ''));
+define('ADMIN_PASSWORD_HASH', env('ADMIN_PASSWORD_HASH', '$2y$10$AT64XSre.2l56FoCx0AU/eagN2AD4PJaOqHQA5s97wAzPhc7e4tPG'));
 
 // Start session if not started, with robust fallback path
 if (session_status() === PHP_SESSION_NONE) {
